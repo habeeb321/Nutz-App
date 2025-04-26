@@ -1,9 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:nutz_app/bottom_navigation/controller/bottom_nav_controller.dart';
 import 'package:nutz_app/core/auth_wrapper.dart';
 import 'package:nutz_app/firebase_options.dart';
 import 'package:nutz_app/home_screen/controller/home_controller.dart';
-import 'package:nutz_app/home_screen/view/home_screen.dart';
 import 'package:nutz_app/login_screen/controller/login_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -21,15 +21,13 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LoginController()),
+        ChangeNotifierProvider(create: (_) => BottomNavController()),
         ChangeNotifierProvider(create: (_) => HomeController()),
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Nutz App',
-        home: const AuthWrapper(),
-        routes: {
-          '/home': (context) => const HomeScreen(),
-        },
+        home: AuthWrapper(),
       ),
     );
   }

@@ -1,19 +1,29 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:nutz_app/home_screen/view/home_screen.dart';
 import 'package:nutz_app/login_screen/view/login_screen.dart';
+import '../bottom_navigation/view/bottom_navigation.dart';
 
 class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final auth = FirebaseAuth.instance;
-    final user = auth.currentUser;
-
-    if (user != null) {
-      return const HomeScreen();
-    }
-    return const LoginScreen();
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          final user = snapshot.data;
+          if (user != null) {
+            return const BottomNavigation();
+          }
+          return const LoginScreen();
+        }
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
+    );
   }
 }
