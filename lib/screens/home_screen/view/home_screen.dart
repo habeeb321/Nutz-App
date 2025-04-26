@@ -13,20 +13,34 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _hasFetchedData = false;
+  bool hasFetchedData = false;
+  TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _fetchData();
+    fetchData();
+    searchController.addListener(onSearchChanged);
   }
 
-  Future<void> _fetchData() async {
-    if (!_hasFetchedData) {
+  @override
+  void dispose() {
+    searchController.removeListener(onSearchChanged);
+    searchController.dispose();
+    super.dispose();
+  }
+
+  void onSearchChanged() {
+    Provider.of<HomeController>(context, listen: false)
+        .searchProducts(searchController.text);
+  }
+
+  Future<void> fetchData() async {
+    if (!hasFetchedData) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await Provider.of<HomeController>(context, listen: false)
             .fetchIphoneData();
-        _hasFetchedData = true;
+        hasFetchedData = true;
       });
     }
   }
@@ -35,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final user = Provider.of<LoginController>(context).auth.currentUser;
     final homeController = Provider.of<HomeController>(context);
-    final products = homeController.homeData?.data ?? [];
 
     return Scaffold(
       appBar: AppBar(
@@ -51,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(width: 16),
         ],
       ),
-      body: homeController.isLoading && !_hasFetchedData
+      body: homeController.isLoading && !hasFetchedData
           ? const Center(child: CircularProgressIndicator())
           : homeController.hasError
               ? Center(child: Text(homeController.errorMessage))
@@ -62,31 +75,46 @@ class _HomeScreenState extends State<HomeScreen> {
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: TextField(
+                          controller: searchController,
                           decoration: InputDecoration(
                             hintText: 'Search for Products',
                             prefixIcon: const Icon(Icons.search),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
+                            suffixIcon: searchController.text.isNotEmpty
+                                ? IconButton(
+                                    icon: const Icon(Icons.clear),
+                                    onPressed: () {
+                                      searchController.clear();
+                                    },
+                                  )
+                                : null,
                           ),
                         ),
                       ),
                       Expanded(
-                        child: GridView.builder(
-                          padding: const EdgeInsets.all(16),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 0.6,
-                          ),
-                          itemCount: products.length,
-                          itemBuilder: (context, index) {
-                            final product = products[index];
-                            return _buildProductCard(product, context);
-                          },
-                        ),
+                        child: homeController.filteredProducts.isEmpty
+                            ? const Center(
+                                child: Text('No products found'),
+                              )
+                            : GridView.builder(
+                                padding: const EdgeInsets.all(16),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                  childAspectRatio: 0.6,
+                                ),
+                                itemCount:
+                                    homeController.filteredProducts.length,
+                                itemBuilder: (context, index) {
+                                  final product =
+                                      homeController.filteredProducts[index];
+                                  return buildProductCard(product, context);
+                                },
+                              ),
                       ),
                     ],
                   ),
@@ -94,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildProductCard(Datum product, BuildContext context) {
+  Widget buildProductCard(Datum product, BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(

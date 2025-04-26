@@ -12,6 +12,8 @@ class HomeController with ChangeNotifier {
   bool hasError = false;
   String errorMessage = '';
   HomeModel? homeData;
+  List<Datum> filteredProducts = [];
+  String searchQuery = '';
 
   Future<void> fetchIphoneData() async {
     try {
@@ -23,6 +25,7 @@ class HomeController with ChangeNotifier {
       final data = await HomeService.getIphoneData();
       if (data != null) {
         homeData = data;
+        filteredProducts = data.data ?? [];
       } else {
         hasError = true;
         errorMessage = 'Failed to load data';
@@ -35,6 +38,25 @@ class HomeController with ChangeNotifier {
       isLoading = false;
       notifyListeners();
     }
+  }
+
+  void searchProducts(String query) {
+    searchQuery = query;
+    if (query.isEmpty) {
+      filteredProducts = homeData?.data ?? [];
+    } else {
+      filteredProducts = homeData?.data
+              ?.where((product) =>
+                  (product.name?.toLowerCase().contains(query.toLowerCase()) ??
+                      false) ||
+                  (product.description
+                          ?.toLowerCase()
+                          .contains(query.toLowerCase()) ??
+                      false))
+              .toList() ??
+          [];
+    }
+    notifyListeners();
   }
 
   Future<void> generateAndSharePdf(Datum product, BuildContext context) async {
