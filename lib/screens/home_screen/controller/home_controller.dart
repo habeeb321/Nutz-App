@@ -14,6 +14,12 @@ class HomeController with ChangeNotifier {
   HomeModel? homeData;
   List<Datum> filteredProducts = [];
   String searchQuery = '';
+  int currentCarouselIndex = 0;
+
+  void updateCurrentCarouselIndex(int index) {
+    currentCarouselIndex = index;
+    notifyListeners();
+  }
 
   Future<void> fetchIphoneData() async {
     try {

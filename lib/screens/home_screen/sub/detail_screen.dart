@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nutz_app/screens/home_screen/model/home_model.dart';
 import 'package:provider/provider.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import '../controller/home_controller.dart';
 
 class DetailScreen extends StatelessWidget {
@@ -10,8 +11,9 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final homeController = Provider.of<HomeController>(context, listen: false);
+    final homeController = Provider.of<HomeController>(context);
     final colorScheme = Theme.of(context).colorScheme;
+    final hasImages = product.images != null && product.images!.isNotEmpty;
 
     return Scaffold(
       appBar: AppBar(
@@ -40,27 +42,76 @@ class DetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: product.images != null && product.images!.isNotEmpty
-                  ? Image.network(
-                      product.images![0],
+            if (hasImages)
+              Column(
+                children: [
+                  CarouselSlider(
+                    options: CarouselOptions(
                       height: 200,
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        height: 200,
-                        width: double.infinity,
-                        color: colorScheme.surfaceContainerHighest,
-                        child: Icon(Icons.error_outline,
-                            size: 50, color: colorScheme.onSurfaceVariant),
-                      ),
-                    )
-                  : Container(
-                      height: 200,
-                      color: colorScheme.surfaceContainerHighest,
-                      child: Icon(Icons.image,
-                          size: 50, color: colorScheme.onSurfaceVariant),
+                      viewportFraction: 1.0,
+                      enlargeCenterPage: false,
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 3),
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 800),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      onPageChanged: (index, reason) {
+                        homeController.updateCurrentCarouselIndex(index);
+                      },
                     ),
-            ),
+                    items: product.images!.map((imageUrl) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 2),
+                            child: Image.network(
+                              imageUrl,
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Container(
+                                height: 200,
+                                width: double.infinity,
+                                color: colorScheme.surfaceContainerHighest,
+                                child: Icon(Icons.error_outline,
+                                    size: 50,
+                                    color: colorScheme.onSurfaceVariant),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(product.images!.length, (index) {
+                      return Container(
+                        width: homeController.currentCarouselIndex == index
+                            ? 24
+                            : 8,
+                        height: 8,
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color: homeController.currentCarouselIndex == index
+                              ? colorScheme.primary
+                              : colorScheme.onSurface.withOpacity(0.3),
+                        ),
+                      );
+                    }),
+                  ),
+                ],
+              )
+            else
+              Container(
+                height: 200,
+                width: double.infinity,
+                color: colorScheme.surfaceContainerHighest,
+                child: Icon(Icons.image,
+                    size: 50, color: colorScheme.onSurfaceVariant),
+              ),
             const SizedBox(height: 16),
             Row(
               children: [
