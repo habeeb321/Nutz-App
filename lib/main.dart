@@ -1,11 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:nutz_app/bottom_navigation/controller/bottom_nav_controller.dart';
+import 'package:nutz_app/screens/auth/bottom_navigation/controller/bottom_nav_controller.dart';
 import 'package:nutz_app/core/auth_wrapper.dart';
 import 'package:nutz_app/core/theme_controller.dart';
 import 'package:nutz_app/firebase_options.dart';
-import 'package:nutz_app/home_screen/controller/home_controller.dart';
-import 'package:nutz_app/login_screen/controller/login_controller.dart';
+import 'package:nutz_app/screens/home_screen/controller/home_controller.dart';
+import 'package:nutz_app/screens/auth/login_screen/controller/login_controller.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {

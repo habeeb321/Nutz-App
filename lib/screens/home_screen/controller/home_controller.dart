@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nutz_app/home_screen/model/home_model.dart';
-import 'package:nutz_app/home_screen/service/home_service.dart';
+import 'package:nutz_app/screens/home_screen/model/home_model.dart';
+import 'package:nutz_app/screens/home_screen/service/home_service.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;

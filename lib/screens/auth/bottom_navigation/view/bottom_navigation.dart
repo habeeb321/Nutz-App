@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nutz_app/bottom_navigation/controller/bottom_nav_controller.dart';
+import 'package:nutz_app/screens/auth/bottom_navigation/controller/bottom_nav_controller.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavigation extends StatelessWidget {

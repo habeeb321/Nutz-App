@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nutz_app/bottom_navigation/view/bottom_navigation.dart';
-import 'package:nutz_app/login_screen/controller/login_controller.dart';
+import 'package:nutz_app/screens/auth/bottom_navigation/view/bottom_navigation.dart';
+import 'package:nutz_app/screens/auth/login_screen/controller/login_controller.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {

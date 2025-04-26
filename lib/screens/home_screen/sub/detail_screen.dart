@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nutz_app/home_screen/model/home_model.dart';
+import 'package:nutz_app/screens/home_screen/model/home_model.dart';
 import 'package:provider/provider.dart';
 import '../controller/home_controller.dart';
 

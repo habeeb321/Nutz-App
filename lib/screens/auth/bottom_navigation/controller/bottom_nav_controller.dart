@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nutz_app/cart_screen/cart_screen.dart';
-import 'package:nutz_app/home_screen/view/home_screen.dart';
-import 'package:nutz_app/profile_screen/profile_screen.dart';
+import 'package:nutz_app/screens/cart_screen/cart_screen.dart';
+import 'package:nutz_app/screens/home_screen/view/home_screen.dart';
+import 'package:nutz_app/screens/profile_screen/profile_screen.dart';
 
 class BottomNavController with ChangeNotifier {
   int selectedIndex = 0;

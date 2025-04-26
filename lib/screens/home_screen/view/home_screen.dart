@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nutz_app/home_screen/controller/home_controller.dart';
-import 'package:nutz_app/home_screen/model/home_model.dart';
-import 'package:nutz_app/home_screen/sub/detail_screen.dart';
-import 'package:nutz_app/login_screen/controller/login_controller.dart';
+import 'package:nutz_app/screens/home_screen/controller/home_controller.dart';
+import 'package:nutz_app/screens/home_screen/model/home_model.dart';
+import 'package:nutz_app/screens/home_screen/sub/detail_screen.dart';
+import 'package:nutz_app/screens/auth/login_screen/controller/login_controller.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {

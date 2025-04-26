@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nutz_app/core/theme_controller.dart';
-import 'package:nutz_app/login_screen/controller/login_controller.dart';
+import 'package:nutz_app/screens/auth/login_screen/controller/login_controller.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
