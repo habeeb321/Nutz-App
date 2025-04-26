@@ -49,13 +49,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final user = Provider.of<LoginController>(context).auth.currentUser;
     final homeController = Provider.of<HomeController>(context);
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Hey, ${user?.displayName ?? 'User'} 👋',
-          style: const TextStyle(
-            fontSize: 18,
+          style: TextStyle(
+            fontSize: size.height * 0.022,
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -73,14 +74,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: EdgeInsets.all(size.height * 0.02),
                         child: TextField(
                           controller: searchController,
                           decoration: InputDecoration(
                             hintText: 'Search for Products',
                             prefixIcon: const Icon(Icons.search),
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+                              borderRadius:
+                                  BorderRadius.circular(size.height * 0.01),
                             ),
                             suffixIcon: searchController.text.isNotEmpty
                                 ? IconButton(
@@ -99,12 +101,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Text('No products found'),
                               )
                             : GridView.builder(
-                                padding: const EdgeInsets.all(16),
+                                padding: EdgeInsets.all(size.height * 0.02),
                                 gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                    SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10,
+                                  crossAxisSpacing: size.height * 0.012,
+                                  mainAxisSpacing: size.height * 0.012,
                                   childAspectRatio: 0.6,
                                 ),
                                 itemCount:
@@ -112,7 +114,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 itemBuilder: (context, index) {
                                   final product =
                                       homeController.filteredProducts[index];
-                                  return buildProductCard(product, context);
+                                  return buildProductCard(
+                                      product, context, size);
                                 },
                               ),
                       ),
@@ -122,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget buildProductCard(Datum product, BuildContext context) {
+  Widget buildProductCard(Datum product, BuildContext context, Size size) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -134,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(size.height * 0.015),
         ),
         elevation: 2,
         child: Column(
@@ -143,113 +146,115 @@ class _HomeScreenState extends State<HomeScreen> {
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(size.height * 0.015),
+                    topRight: Radius.circular(size.height * 0.015),
                   ),
                   child: product.images != null && product.images!.isNotEmpty
                       ? Image.network(
                           product.images![0],
-                          height: 120,
+                          height: size.height * 0.15,
                           width: double.infinity,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) =>
                               Container(
-                            height: 120,
+                            height: size.height * 0.15,
                             width: double.infinity,
                             color: Colors.grey[200],
-                            child: const Icon(Icons.error_outline, size: 50),
+                            child: Icon(Icons.error_outline,
+                                size: size.height * 0.06),
                           ),
                         )
                       : Container(
-                          height: 120,
+                          height: size.height * 0.15,
                           color: Colors.grey[200],
                           width: double.infinity,
                           child: const Icon(Icons.image),
                         ),
                 ),
                 Positioned(
-                  top: 8,
-                  right: 8,
+                  top: size.height * 0.01,
+                  right: size.height * 0.01,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardTheme.color,
                       shape: BoxShape.circle,
                     ),
-                    padding: const EdgeInsets.all(4),
-                    child: const Icon(
+                    padding: EdgeInsets.all(size.height * 0.005),
+                    child: Icon(
                       Icons.star,
                       color: Colors.amber,
-                      size: 18,
+                      size: size.height * 0.022,
                     ),
                   ),
                 ),
               ],
             ),
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(size.height * 0.015),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     product.name ?? 'iPhone 14 Pro',
-                    style: const TextStyle(
-                      fontSize: 14,
+                    style: TextStyle(
+                      fontSize: size.height * 0.017,
                       fontWeight: FontWeight.w500,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: size.height * 0.005),
                   Text(
                     '₹ ${product.price?.toStringAsFixed(0) ?? '150000'}/-',
-                    style: const TextStyle(
-                      fontSize: 16,
+                    style: TextStyle(
+                      fontSize: size.height * 0.02,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: size.height * 0.005),
                   Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.star,
                         color: Colors.amber,
-                        size: 14,
+                        size: size.height * 0.017,
                       ),
-                      const SizedBox(width: 4),
+                      SizedBox(width: size.height * 0.005),
                       Text(
                         product.rating?.toStringAsFixed(1) ?? '4.5',
-                        style: const TextStyle(
-                          fontSize: 12,
+                        style: TextStyle(
+                          fontSize: size.height * 0.015,
                           color: Colors.grey,
                         ),
                       ),
                       const Spacer(),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 2,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: size.height * 0.01,
+                          vertical: size.height * 0.002,
                         ),
                         decoration: BoxDecoration(
                           color: Colors.amber,
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius:
+                              BorderRadius.circular(size.height * 0.005),
                         ),
-                        child: const Text(
+                        child: Text(
                           'New',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 10,
+                            fontSize: size.height * 0.012,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: size.height * 0.01),
                   Text(
                     product.description ?? 'Lorem ipsum dolor sit amet',
-                    style: const TextStyle(
-                      fontSize: 12,
+                    style: TextStyle(
+                      fontSize: size.height * 0.015,
                       color: Colors.grey,
                     ),
                     maxLines: 2,

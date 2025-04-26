@@ -14,6 +14,7 @@ class DetailScreen extends StatelessWidget {
     final homeController = Provider.of<HomeController>(context);
     final colorScheme = Theme.of(context).colorScheme;
     final hasImages = product.images != null && product.images!.isNotEmpty;
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
@@ -25,7 +26,7 @@ class DetailScreen extends StatelessWidget {
         title: Text(
           'Product Details',
           style: TextStyle(
-            fontSize: 20,
+            fontSize: size.height * 0.025,
             fontWeight: FontWeight.w500,
             color: colorScheme.onSurface,
           ),
@@ -38,7 +39,7 @@ class DetailScreen extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(size.height * 0.02),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -47,7 +48,7 @@ class DetailScreen extends StatelessWidget {
                 children: [
                   CarouselSlider(
                     options: CarouselOptions(
-                      height: 200,
+                      height: size.height * 0.25,
                       viewportFraction: 1.0,
                       enlargeCenterPage: false,
                       autoPlay: true,
@@ -64,17 +65,18 @@ class DetailScreen extends StatelessWidget {
                         builder: (BuildContext context) {
                           return Container(
                             width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.symmetric(horizontal: 2),
+                            margin: EdgeInsets.symmetric(
+                                horizontal: size.height * 0.002),
                             child: Image.network(
                               imageUrl,
                               fit: BoxFit.contain,
                               errorBuilder: (context, error, stackTrace) =>
                                   Container(
-                                height: 200,
+                                height: size.height * 0.25,
                                 width: double.infinity,
                                 color: colorScheme.surfaceContainerHighest,
                                 child: Icon(Icons.error_outline,
-                                    size: 50,
+                                    size: size.height * 0.06,
                                     color: colorScheme.onSurfaceVariant),
                               ),
                             ),
@@ -83,18 +85,20 @@ class DetailScreen extends StatelessWidget {
                       );
                     }).toList(),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: size.height * 0.01),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(product.images!.length, (index) {
                       return Container(
                         width: homeController.currentCarouselIndex == index
-                            ? 24
-                            : 8,
-                        height: 8,
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                            ? size.height * 0.03
+                            : size.height * 0.01,
+                        height: size.height * 0.01,
+                        margin: EdgeInsets.symmetric(
+                            horizontal: size.height * 0.005),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius:
+                              BorderRadius.circular(size.height * 0.005),
                           color: homeController.currentCarouselIndex == index
                               ? colorScheme.primary
                               : colorScheme.onSurface.withOpacity(0.3),
@@ -106,55 +110,57 @@ class DetailScreen extends StatelessWidget {
               )
             else
               Container(
-                height: 200,
+                height: size.height * 0.25,
                 width: double.infinity,
                 color: colorScheme.surfaceContainerHighest,
                 child: Icon(Icons.image,
-                    size: 50, color: colorScheme.onSurfaceVariant),
+                    size: size.height * 0.06,
+                    color: colorScheme.onSurfaceVariant),
               ),
-            const SizedBox(height: 16),
+            SizedBox(height: size.height * 0.02),
             Row(
               children: [
-                const Icon(Icons.star, color: Colors.amber, size: 20),
-                const SizedBox(width: 4),
+                Icon(Icons.star,
+                    color: Colors.amber, size: size.height * 0.025),
+                SizedBox(width: size.height * 0.005),
                 Text(
                   product.rating?.toStringAsFixed(1) ?? '4.9',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: size.height * 0.02,
                     color: colorScheme.onSurface,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: size.height * 0.01),
             Text(
               '₹ ${product.price?.toStringAsFixed(0) ?? '150000'}/-',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: size.height * 0.03,
                 fontWeight: FontWeight.bold,
                 color: colorScheme.onSurface,
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: size.height * 0.02),
             Text(
               product.name ?? 'iPhone 16 Pro',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: size.height * 0.025,
                 fontWeight: FontWeight.bold,
                 color: colorScheme.onSurface,
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: size.height * 0.02),
             Text(
               product.description ??
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: size.height * 0.02,
                 height: 1.5,
                 color: colorScheme.onSurface.withOpacity(0.8),
               ),
             ),
-            const SizedBox(height: 50),
+            SizedBox(height: size.height * 0.06),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
@@ -167,9 +173,9 @@ class DetailScreen extends StatelessWidget {
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colorScheme.primary,
-                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.symmetric(vertical: size.height * 0.012),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(size.height * 0.01),
                   ),
                 ),
               ),

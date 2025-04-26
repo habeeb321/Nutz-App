@@ -12,17 +12,19 @@ class ProfileScreen extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser;
     final loginController =
         Provider.of<LoginController>(context, listen: false);
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Profile',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+          style: TextStyle(
+              fontSize: size.height * 0.025, fontWeight: FontWeight.w500),
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: EdgeInsets.all(size.height * 0.018),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -30,53 +32,56 @@ class ProfileScreen extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 children: [
                   CircleAvatar(
-                    radius: 60,
+                    radius: size.height * 0.075,
                     backgroundColor: Colors.grey[200],
                     backgroundImage: user?.photoURL != null
                         ? NetworkImage(user!.photoURL!)
                         : null,
                     child: user?.photoURL == null
-                        ? const Icon(Icons.person, size: 60, color: Colors.grey)
+                        ? Icon(Icons.person,
+                            size: size.height * 0.075, color: Colors.grey)
                         : null,
                   ),
                   Container(
-                    padding: const EdgeInsets.all(6),
+                    padding: EdgeInsets.all(size.height * 0.007),
                     decoration: BoxDecoration(
                       color: Colors.blue,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(size.height * 0.025),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.edit,
-                      size: 18,
+                      size: size.height * 0.022,
                       color: Colors.white,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: size.height * 0.012),
               Text(
                 user?.displayName ?? 'No Name',
-                style: const TextStyle(
-                  fontSize: 24,
+                style: TextStyle(
+                  fontSize: size.height * 0.03,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 6),
+              SizedBox(height: size.height * 0.007),
               Text(
                 user?.email ?? 'No Email',
-                style: const TextStyle(
-                  fontSize: 16,
+                style: TextStyle(
+                  fontSize: size.height * 0.02,
                   color: Colors.grey,
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: size.height * 0.025),
               _buildProfileCard(
+                size: size,
                 icon: Icons.calendar_today,
                 title: 'Account Created',
                 value: user?.metadata.creationTime?.toString().split(' ')[0] ??
                     'Unknown',
               ),
               _buildProfileCard(
+                size: size,
                 icon: Icons.update,
                 title: 'Last Sign In',
                 value:
@@ -84,6 +89,7 @@ class ProfileScreen extends StatelessWidget {
                         'Unknown',
               ),
               _buildProfileCard(
+                size: size,
                 icon: Icons.verified_user,
                 title: 'Provider',
                 value: user?.providerData.first.providerId
@@ -104,7 +110,8 @@ class ProfileScreen extends StatelessWidget {
                           ? 'Dark Mode'
                           : 'Light Mode'),
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(vertical: size.height * 0.012),
                         backgroundColor:
                             Theme.of(context).colorScheme.secondary,
                         foregroundColor:
@@ -114,7 +121,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: size.height * 0.012),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
@@ -127,11 +134,12 @@ class ProfileScreen extends StatelessWidget {
                   icon: const Icon(Icons.logout),
                   label: const Text('Logout'),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    padding:
+                        EdgeInsets.symmetric(vertical: size.height * 0.012),
                     backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(size.height * 0.012),
                     ),
                   ),
                 ),
@@ -144,38 +152,39 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildProfileCard({
+    required Size size,
     required IconData icon,
     required String title,
     required String value,
   }) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: size.height * 0.015),
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(size.height * 0.015),
         side: BorderSide(color: Colors.grey.shade200),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(size.height * 0.02),
         child: Row(
           children: [
             Icon(icon, color: Colors.blue),
-            const SizedBox(width: 16),
+            SizedBox(width: size.height * 0.02),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: 14,
+                  style: TextStyle(
+                    fontSize: size.height * 0.017,
                     color: Colors.grey,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: size.height * 0.005),
                 Text(
                   value,
-                  style: const TextStyle(
-                    fontSize: 16,
+                  style: TextStyle(
+                    fontSize: size.height * 0.02,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
