@@ -45,10 +45,8 @@ class HomeController with ChangeNotifier {
         builder: (context) => const Center(child: CircularProgressIndicator()),
       );
 
-      // Create a PDF document
       final pdf = pw.Document();
 
-      // Download the image if available
       pw.MemoryImage? productImage;
       if (product.images![0].isNotEmpty) {
         try {
@@ -70,15 +68,12 @@ class HomeController with ChangeNotifier {
                   style: pw.TextStyle(
                       fontSize: 24, fontWeight: pw.FontWeight.bold)),
               pw.SizedBox(height: 10),
-
-              // Add image if available
               if (productImage != null) ...[
                 pw.Center(
                   child: pw.Image(productImage, height: 200),
                 ),
                 pw.SizedBox(height: 15),
               ],
-
               pw.Text('Price: ₹ ${product.price?.toStringAsFixed(0) ?? 'N/A'}',
                   style: const pw.TextStyle(fontSize: 18)),
               pw.SizedBox(height: 10),
@@ -113,7 +108,6 @@ class HomeController with ChangeNotifier {
 
   Future<void> shareProduct(Datum product) async {
     try {
-      // If there's an image, download it first
       if (product.images![0].isNotEmpty) {
         final response = await http.get(Uri.parse(product.images![0]));
         if (response.statusCode == 200) {
@@ -121,7 +115,6 @@ class HomeController with ChangeNotifier {
           final imageFile = File('${tempDir.path}/product_image.jpg');
           await imageFile.writeAsBytes(response.bodyBytes);
 
-          // Share both text and image
           await Share.shareXFiles(
             [XFile(imageFile.path)],
             text: 'Check out this product: ${product.name}\n'
@@ -130,16 +123,14 @@ class HomeController with ChangeNotifier {
                 '${product.description ?? ''}',
           );
         } else {
-          // If image download fails, share only text
           _shareTextOnly(product);
         }
       } else {
-        // If no image available, share only text
         _shareTextOnly(product);
       }
     } catch (e) {
       debugPrint('Error sharing product with image: $e');
-      // Fallback to text-only sharing
+
       _shareTextOnly(product);
     }
   }
