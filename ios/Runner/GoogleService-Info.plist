@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>54873829822-buh7t6psdbv8in2a1uo3pank314k3tpe.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.54873829822-buh7t6psdbv8in2a1uo3pank314k3tpe</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDr15-12ld3RDlR7Sb1M9IVWivCMe4Ac6o</string>
+	<key>GCM_SENDER_ID</key>
+	<string>54873829822</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.nutzApp</string>
+	<key>PROJECT_ID</key>
+	<string>nutz-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>nutz-app.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:54873829822:ios:bfeb7b5c31133b28b789ef</string>
+</dict>
+</plist>

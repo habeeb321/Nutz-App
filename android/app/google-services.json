@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "54873829822",
+    "project_id": "nutz-app",
+    "storage_bucket": "nutz-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:54873829822:android:b65d0aec8f9a4026b789ef",
+        "android_client_info": {
+          "package_name": "com.example.nutz_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "54873829822-5odktokg1pghp3d1mq9mmg8vrc5stuff.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nutz_app",
+            "certificate_hash": "559c453c19b37862e09a1d11b0b78ca8c6ca2866"
+          }
+        },
+        {
+          "client_id": "54873829822-7rgfp4ggjd3l1n6v6lgr7t4hmm5nglrj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfA_9DonGYeLMFtttbgmG017dolig2PiM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "54873829822-7rgfp4ggjd3l1n6v6lgr7t4hmm5nglrj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "54873829822-buh7t6psdbv8in2a1uo3pank314k3tpe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.nutzApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
