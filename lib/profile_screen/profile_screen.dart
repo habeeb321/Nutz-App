@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:nutz_app/core/theme_controller.dart';
 import 'package:nutz_app/login_screen/controller/login_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -21,11 +22,10 @@ class ProfileScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(15.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 20),
               Stack(
                 alignment: Alignment.bottomRight,
                 children: [
@@ -45,12 +45,15 @@ class ProfileScreen extends StatelessWidget {
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child:
-                        const Icon(Icons.edit, size: 18, color: Colors.white),
+                    child: const Icon(
+                      Icons.edit,
+                      size: 18,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Text(
                 user?.displayName ?? 'No Name',
                 style: const TextStyle(
@@ -66,7 +69,7 @@ class ProfileScreen extends StatelessWidget {
                   color: Colors.grey,
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               _buildProfileCard(
                 icon: Icons.calendar_today,
                 title: 'Account Created',
@@ -87,7 +90,31 @@ class ProfileScreen extends StatelessWidget {
                         .replaceAll('.com', '') ??
                     'Unknown',
               ),
-              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: Consumer<ThemeController>(
+                  builder: (context, themeController, _) => SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () => themeController.toggleTheme(),
+                      icon: Icon(themeController.themeMode == ThemeMode.light
+                          ? Icons.dark_mode
+                          : Icons.light_mode),
+                      label: Text(themeController.themeMode == ThemeMode.light
+                          ? 'Dark Mode'
+                          : 'Light Mode'),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                        foregroundColor:
+                            Theme.of(context).colorScheme.onSecondary,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
@@ -100,7 +127,7 @@ class ProfileScreen extends StatelessWidget {
                   icon: const Icon(Icons.logout),
                   label: const Text('Logout'),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(

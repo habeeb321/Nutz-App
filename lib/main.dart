@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:nutz_app/bottom_navigation/controller/bottom_nav_controller.dart';
 import 'package:nutz_app/core/auth_wrapper.dart';
+import 'package:nutz_app/core/theme_controller.dart';
 import 'package:nutz_app/firebase_options.dart';
 import 'package:nutz_app/home_screen/controller/home_controller.dart';
 import 'package:nutz_app/login_screen/controller/login_controller.dart';
@@ -23,11 +24,17 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LoginController()),
         ChangeNotifierProvider(create: (_) => BottomNavController()),
         ChangeNotifierProvider(create: (_) => HomeController()),
+        ChangeNotifierProvider(create: (_) => ThemeController()),
       ],
-      child: const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Nutz App',
-        home: AuthWrapper(),
+      child: Consumer<ThemeController>(
+        builder: (context, themeController, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Nutz App',
+            theme: themeController.currentTheme,
+            home: const AuthWrapper(),
+          );
+        },
       ),
     );
   }

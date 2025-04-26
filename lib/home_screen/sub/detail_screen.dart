@@ -11,21 +11,26 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeController = Provider.of<HomeController>(context, listen: false);
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: colorScheme.onSurface),
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Product Details',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            color: colorScheme.onSurface,
+          ),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.share),
+            icon: Icon(Icons.share, color: colorScheme.onSurface),
             onPressed: () => homeController.shareProduct(product),
           ),
         ],
@@ -44,14 +49,16 @@ class DetailScreen extends StatelessWidget {
                       errorBuilder: (context, error, stackTrace) => Container(
                         height: 200,
                         width: double.infinity,
-                        color: Colors.grey[200],
-                        child: const Icon(Icons.error_outline, size: 50),
+                        color: colorScheme.surfaceContainerHighest,
+                        child: Icon(Icons.error_outline,
+                            size: 50, color: colorScheme.onSurfaceVariant),
                       ),
                     )
                   : Container(
                       height: 200,
-                      color: Colors.grey[200],
-                      child: const Icon(Icons.image),
+                      color: colorScheme.surfaceContainerHighest,
+                      child: Icon(Icons.image,
+                          size: 50, color: colorScheme.onSurfaceVariant),
                     ),
             ),
             const SizedBox(height: 16),
@@ -61,31 +68,40 @@ class DetailScreen extends StatelessWidget {
                 const SizedBox(width: 4),
                 Text(
                   product.rating?.toStringAsFixed(1) ?? '4.9',
-                  style: const TextStyle(fontSize: 16),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: colorScheme.onSurface,
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 8),
             Text(
               '₹ ${product.price?.toStringAsFixed(0) ?? '150000'}/-',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 16),
             Text(
               product.name ?? 'iPhone 16 Pro',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 16),
             Text(
               product.description ??
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-              style: const TextStyle(fontSize: 16, height: 1.5),
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
+              style: TextStyle(
+                fontSize: 16,
+                height: 1.5,
+                color: colorScheme.onSurface.withOpacity(0.8),
+              ),
             ),
             const SizedBox(height: 50),
             SizedBox(
@@ -93,13 +109,13 @@ class DetailScreen extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: () =>
                     homeController.generateAndSharePdf(product, context),
-                icon: const Icon(Icons.picture_as_pdf, color: Colors.white),
-                label: const Text(
+                icon: Icon(Icons.picture_as_pdf, color: colorScheme.onPrimary),
+                label: Text(
                   'Download as PDF',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: colorScheme.onPrimary),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
+                  backgroundColor: colorScheme.primary,
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),

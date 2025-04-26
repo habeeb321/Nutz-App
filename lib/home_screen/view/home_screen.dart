@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemCount: products.length,
                           itemBuilder: (context, index) {
                             final product = products[index];
-                            return _buildProductCard(product);
+                            return _buildProductCard(product, context);
                           },
                         ),
                       ),
@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildProductCard(Datum product) {
+  Widget _buildProductCard(Datum product, BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -105,7 +105,6 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
       child: Card(
-        color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -145,8 +144,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   top: 8,
                   right: 8,
                   child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardTheme.color,
                       shape: BoxShape.circle,
                     ),
                     padding: const EdgeInsets.all(4),
