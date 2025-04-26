@@ -8,14 +8,19 @@ class BottomNavigation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<BottomNavController>(context);
+    final theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       body: controller.screens[controller.selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey,
+        backgroundColor: theme.bottomNavigationBarTheme.backgroundColor ??
+            theme.cardTheme.color,
+        selectedItemColor: theme.bottomNavigationBarTheme.selectedItemColor ??
+            theme.colorScheme.primary,
+        unselectedItemColor:
+            theme.bottomNavigationBarTheme.unselectedItemColor ??
+                theme.colorScheme.onSurface.withOpacity(0.6),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
@@ -44,7 +49,15 @@ class BottomNavigation extends StatelessWidget {
         type: BottomNavigationBarType.fixed,
         selectedLabelStyle: TextStyle(fontSize: size.height * 0.014),
         unselectedLabelStyle: TextStyle(fontSize: size.height * 0.014),
-        elevation: 50,
+        elevation: 100,
+        selectedIconTheme: IconThemeData(
+          color: theme.bottomNavigationBarTheme.selectedItemColor ??
+              theme.colorScheme.primary,
+        ),
+        unselectedIconTheme: IconThemeData(
+          color: theme.bottomNavigationBarTheme.unselectedItemColor ??
+              theme.colorScheme.onSurface.withOpacity(0.6),
+        ),
       ),
     );
   }
