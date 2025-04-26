@@ -21,10 +21,11 @@ class _HomeScreenState extends State<HomeScreen> {
     _fetchData();
   }
 
-  void _fetchData() {
+  Future<void> _fetchData() async {
     if (!_hasFetchedData) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Provider.of<HomeController>(context, listen: false).fetchIphoneData();
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await Provider.of<HomeController>(context, listen: false)
+            .fetchIphoneData();
         _hasFetchedData = true;
       });
     }
@@ -50,42 +51,45 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(width: 16),
         ],
       ),
-      body: homeController.isLoading
+      body: homeController.isLoading && !_hasFetchedData
           ? const Center(child: CircularProgressIndicator())
           : homeController.hasError
               ? Center(child: Text(homeController.errorMessage))
-              : Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Search for Products',
-                          prefixIcon: const Icon(Icons.search),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+              : RefreshIndicator(
+                  onRefresh: homeController.fetchIphoneData,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Search for Products',
+                            prefixIcon: const Icon(Icons.search),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: GridView.builder(
-                        padding: const EdgeInsets.all(16),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          childAspectRatio: 0.6,
+                      Expanded(
+                        child: GridView.builder(
+                          padding: const EdgeInsets.all(16),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 0.6,
+                          ),
+                          itemCount: products.length,
+                          itemBuilder: (context, index) {
+                            final product = products[index];
+                            return _buildProductCard(product);
+                          },
                         ),
-                        itemCount: products.length,
-                        itemBuilder: (context, index) {
-                          final product = products[index];
-                          return _buildProductCard(product);
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
     );
   }
